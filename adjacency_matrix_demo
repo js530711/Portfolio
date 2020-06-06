@@ -1,0 +1,79 @@
+/*Joshua Cadegan-Syms This program reads a text file containing 
+information about an undirected, unweighted graph, creates an adjacency 
+matrix representation, and traverse the graph using a depth-first search methods.
+*/
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+ public class adjacency_matrix_representation{
+
+   public static boolean[] search;
+   public static int[][] Matrix;
+   
+ public static void main(String[] args) throws FileNotFoundException{
+   
+   Scanner kb1 = new Scanner(System.in);//new scanner
+   System.out.print("Enter Name of File: ");//inputs the name of the file to read
+   String string = kb1.nextLine();
+
+   File file = new File(string);//new file created
+   Scanner kb2 = new Scanner(file);//new scanner is created to input file
+
+   StringTokenizer Token = new StringTokenizer(kb2.nextLine());
+
+   int size = Integer.parseInt(Token.nextToken());
+   Matrix = new int[size][size]; //initilaized
+
+   while(kb2.hasNext()){//This while loop creates the matrix
+
+      String vertix1 = kb2.next();//first vertix
+      String vertix2 = kb2.next();//second vertix
+      
+      int x = vertix1.charAt(0)-65;//fills matix
+      int y = vertix2.charAt(0)-65;
+
+      Matrix[x][y] = 1;
+      Matrix[y][x] = 1;
+   }
+   
+   for(int i=0; i<size; i++){//this for loop prints the matrix
+
+      for(int j=0; j<size; j++)
+         System.out.print(Matrix[i][j] + " " );
+      
+      System.out.println();
+   }
+
+   int element = 65;
+
+   System.out.print("Please enter element: ");//inputs an element in the array
+   element = kb1.nextLine().charAt(0)-65;
+
+   while(element<0||element>4){
+      
+      System.out.print("Try again, element not in array:  ");//error check. If element is not in array, this will print
+      element = kb1.nextLine().charAt(0)-65;
+   }
+
+   search = new boolean[size];
+   
+   //Prints the order of traversal by calling the method search
+   System.out.print("Traversal order: ");
+   Search(element);
+}
+
+//This is a recursive method which performs a depth first search printing in traversal order.
+public static void Search(int n){
+
+   search[n] = true;
+
+   System.out.print((char)(n+65) + " ");
+
+   for(int i=search.length-1; i>=0; i--)
+
+      if(Matrix[n][i]==1 && search[i]==false)
+       
+         Search(i);
+   }
+}
